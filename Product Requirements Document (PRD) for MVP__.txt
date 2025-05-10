@@ -1,0 +1,161 @@
+﻿Product Requirements Document (PRD) for MVP
+Project Name: GuardianLink 🌍⚡  
+*AI-Driven Crisis Response & Mental Health Protocol*  
+
+
+---
+
+
+### **1. Overview**  
+**Tagline**: *"Delegating Hope, Streamlining Survival."*  
+**Vision**: Build a hackathon MVP showcasing **decentralized disaster aid coordination** and **privacy-first mental health coaching**, powered by ERC-7715/7710, MetaMask Delegation Toolkit, and Gaia AI.  
+
+
+**Hackathon Focus**:  
+- Use `create-gator-app` (Next.js + Tailwind) for frontend.  
+- Integrate ERC-7715 (token streams) + ERC-7710 (delegation) via MetaMask SDK.  
+- Leverage Gaia API/local node for AI disaster predictions and mental health interactions.  
+
+
+---
+
+
+### **2. MVP Scope**  
+#### **Core Features**  
+**A. Disaster Response Module (DeProdAI)**  
+1. **ERC-7715 Aid Streams**  
+   - NGOs create tokenized aid bundles (e.g., "100 Meals/day for 7 days").  
+   - Funds stream automatically when IoT/satellite data confirms delivery (mock data for demo).  
+2. **MetaMask Delegation**  
+   - NGOs delegate ERC-7710 permissions to Gaia AI to auto-release funds.  
+3. **AI Crisis Dashboard**  
+   - Next.js/Tailwind map showing active disasters and streamed aid status.  
+
+
+**B. Mental Health Module (DeEduAI)**  
+1. **Tokenized Coaching Sessions**  
+   - Users subscribe via ERC-7715 streams (e.g., 0.1 ETH/week for AI counseling).  
+2. **Gaia AI Chatbot**  
+   - Basic mental health support with cultural adaptability (e.g., responds in Swahili if user’s IP is Kenya).  
+3. **Privacy-First Design**  
+   - Encrypted chat logs stored on IPFS (mock for MVP).  
+
+
+---
+
+
+### **3. Tech Stack**  
+| Component              | Tech Used                                                                 |  
+|-------------------------|---------------------------------------------------------------------------|  
+| **Frontend**            | Next.js, Tailwind, `create-gator-app` template                            |  
+| **Smart Contracts**     | Solidity (ERC-7715/7710), Hardhat, deployed on Polygon Mumbai             |  
+| **Wallet Integration**  | MetaMask Delegation SDK (for signing streams + delegations)               |  
+| **AI**                  | Gaia API (or local node for mental health interactions)                   |  
+| **Storage**             | IPFS (via web3.storage), Vercel for hosting                               |  
+
+
+---
+
+
+### **4. User Flow**  
+**Disaster Responder (NGO Admin):**  
+1. Log in via MetaMask.  
+2. Delegate ERC-7710 permissions to Gaia AI.  
+3. Create ERC-7715 aid stream for "Flood Relief in Lagos."  
+4. View real-time dashboard of fund releases.  
+
+
+**Mental Health User:**  
+1. Connect MetaMask.  
+2. Subscribe to "Anxiety Support Bot" via ERC-7715 stream.  
+3. Chat with Gaia AI (simulated Swahili/Yoruba responses).  
+4. View encrypted session history.  
+
+
+---
+
+
+### **5. Mock Data for Demo**  
+- **Disaster Module**: Simulate IoT data (e.g., "Flood detected in Lagos") using a JSON file.  
+- **Mental Health**: Pre-trained Gaia responses for 3 languages (English, Swahili, Hindi).  
+
+
+---
+
+
+### **6. Code Structure**  
+```bash  
+/guardianlink-mvp  
+├── frontend # Next.js + Tailwind (create-gator-app)  
+│   ├── components  
+│   │   ├── DisasterMap.js  
+│   │   └── ChatBot.js  
+├── contracts # ERC-7715/7710  
+│   ├── AidStream.sol  
+│   └── DelegationManager.sol  
+├── backend # Node.js + Gaia API  
+│   ├── ai.js # Simulated disaster/mental health logic  
+└── .env # API keys (mock)  
+```  
+
+
+---
+
+
+### **7. Deliverables**  
+1. **GitHub Repo**:  
+   - Use `create-gator-app` template.  
+   - Include README with:  
+     - Setup steps for local Gaia node.  
+     - Demo GIFs of aid streaming + chatbot.  
+     - Contract addresses on Polygon Mumbai.  
+2. **3-Minute Demo Video**:  
+   - Show MetaMask login → delegate permissions → stream aid → chat with AI.  
+   - Highlight ERC-7715/7710 and Gaia integration.  
+3. **Hosted Demo**:  
+   - Deploy frontend on Vercel.  
+   - Testnet contract interaction via MetaMask.  
+
+
+---
+
+
+### **8. Hackathon Bonus Checklist**  
+✅ **MetaMask Delegation SDK** for ERC-7710/7715  
+✅ **Gaia API/local node** for AI interactions  
+✅ **Next.js + Tailwind** with `create-gator-app`  
+✅ **Hosted demo** on Vercel  
+✅ **Recorded video** explaining code  
+
+
+---
+
+
+### **9. Judging Criteria Alignment**  
+- **Innovation**: Combining disaster relief + mental health via delegation.  
+- **Technicality**: ERC-7715 streams + zk-proofs (mock) + Gaia AI.  
+- **Impact**: Scalable model for emerging markets.  
+
+
+---
+
+
+### **10. Timeline (3-Day Hackathon)**  
+| Day | Task                                       |  
+|-----|--------------------------------------------|  
+| 1   | Scaffold Next.js app + ERC-7715 contracts  |  
+| 2   | Integrate MetaMask SDK + Gaia API          |  
+| 3   | Polish UI + record video + deploy          |  
+
+
+---
+
+
+**Let’s Build**:  
+```bash  
+npx create-gator-app guardianlink-mvp --template nextjs-tailwind  
+cd guardianlink-mvp && npm install @metamask/delegation-sdk  
+```  
+
+
+Ready to ship hope? 🚀
