@@ -23,7 +23,22 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 # Initialize Web3
-web3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI", "https://polygon-mumbai.infura.io/v3/your-infura-id")))
+WEB3_PROVIDER_URI = os.getenv("WEB3_PROVIDER_URI")
+if not WEB3_PROVIDER_URI:
+    logger.warning("WEB3_PROVIDER_URI not set in .env, using default value")
+    WEB3_PROVIDER_URI = "https://polygon-mumbai.infura.io/v3/your-infura-id"
+web3 = Web3(Web3.HTTPProvider(WEB3_PROVIDER_URI))
+
+# Get contract addresses from environment variables
+ERC7715_ADDRESS = os.getenv("ERC7715_ADDRESS")
+if not ERC7715_ADDRESS:
+    logger.warning("ERC7715_ADDRESS not set in .env, using default value")
+    ERC7715_ADDRESS = "0x0000000000000000000000000000000000000000"
+
+ERC7710_ADDRESS = os.getenv("ERC7710_ADDRESS")
+if not ERC7710_ADDRESS:
+    logger.warning("ERC7710_ADDRESS not set in .env, using default value")
+    ERC7710_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 # Mock contract ABIs
 # In production, these would be loaded from actual JSON files
@@ -78,10 +93,6 @@ ERC7710_ABI = json.loads(os.getenv("ERC7710_ABI", """[
         "type": "function"
     }
 ]"""))
-
-# Contract addresses
-ERC7715_ADDRESS = os.getenv("ERC7715_ADDRESS", "0x0000000000000000000000000000000000000000")
-ERC7710_ADDRESS = os.getenv("ERC7710_ADDRESS", "0x0000000000000000000000000000000000000000")
 
 # Initialize contracts
 erc7715_contract = web3.eth.contract(address=ERC7715_ADDRESS, abi=ERC7715_ABI)
