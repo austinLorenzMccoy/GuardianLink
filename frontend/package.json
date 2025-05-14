@@ -20,7 +20,6 @@
     "@radix-ui/react-tooltip": "^1.2.6",
     "@tailwindcss/forms": "^0.5.10",
     "@tanstack/react-table": "^8.21.3",
-    "@walletconnect/ethereum-provider": "^2.20.2",
     "@web3modal/ethereum": "^2.7.1",
     "@web3modal/react": "^2.7.1",
     "class-variance-authority": "^0.7.1",
