@@ -5,15 +5,29 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 
+// Define the Ethereum provider interface
+interface EthereumProvider {
+  isMetaMask?: boolean;
+  request: (request: { method: string; params?: unknown[] }) => Promise<unknown>;
+  on: (eventName: string, listener: (...args: unknown[]) => void) => void;
+  removeListener: (eventName: string, listener: (...args: unknown[]) => void) => void;
+}
+
+// Extend the Window interface
+declare global {
+  interface Window {
+    ethereum?: EthereumProvider;
+  }
+}
+
 export const MetaMaskConnect = () => {
   const { toast } = useToast();
   const [account, setAccount] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
   // Check if MetaMask is installed
-  const isMetaMaskInstalled = () => {
-    const { ethereum } = window as any;
-    return Boolean(ethereum && ethereum.isMetaMask);
+  const isMetaMaskInstalled = (): boolean => {
+    return Boolean(window.ethereum && window.ethereum.isMetaMask);
   };
 
   // Handle connecting to MetaMask
@@ -30,20 +44,22 @@ export const MetaMaskConnect = () => {
     setIsConnecting(true);
 
     try {
-      const { ethereum } = window as any;
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      
-      if (accounts.length > 0) {
-        setAccount(accounts[0]);
-        toast({
-          title: "Wallet connected",
-          description: "Your MetaMask wallet has been connected successfully",
-        });
+      if (window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
+        
+        if (accounts.length > 0) {
+          setAccount(accounts[0]);
+          toast({
+            title: "Wallet connected",
+            description: "Your MetaMask wallet has been connected successfully",
+          });
+        }
       }
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to connect to MetaMask";
       toast({
         title: "Connection failed",
-        description: error.message || "Failed to connect to MetaMask",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -62,27 +78,28 @@ export const MetaMaskConnect = () => {
 
   // Listen for account changes
   useEffect(() => {
-    const { ethereum } = window as any;
-    
-    if (ethereum) {
-      const handleAccountsChanged = (accounts: string[]) => {
-        if (accounts.length > 0) {
+    if (window.ethereum) {
+      const handleAccountsChanged = (...args: unknown[]) => {
+        const accounts = args[0] as unknown[];
+        if (accounts && accounts.length > 0 && typeof accounts[0] === 'string') {
           setAccount(accounts[0]);
         } else {
           setAccount(null);
         }
       };
 
-      ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
       
       return () => {
-        ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        if (window.ethereum) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        }
       };
     }
   }, []);
 
   // Format the account address for display
-  const formatAddress = (address: string) => {
+  const formatAddress = (address: string): string => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   };
 

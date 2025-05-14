@@ -14,7 +14,7 @@ import TestimonialsSection from '../../components/mental-health/TestimonialsSect
 import CTA from '../../components/mental-health/CTA';
 
 export default function MentalHealthPage() {
-  const [activeSection, setActiveSection] = useState('hero');
+  // Removed unused state variable
   const [showScrollPrompt, setShowScrollPrompt] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -41,19 +41,8 @@ export default function MentalHealthPage() {
         setShowScrollPrompt(true);
       }
       
-      // Update active section based on viewport position
-      const sections = ['hero', 'journey', 'features', 'testimonials', 'cta'];
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          // Section is considered active when it occupies the middle of the viewport
-          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
+      // We no longer need to track active section since it's not being used
+      // If you need this functionality in the future, you can re-implement it
     };
 
     window.addEventListener('scroll', handleScroll);

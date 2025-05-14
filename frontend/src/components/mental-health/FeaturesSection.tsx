@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import {  useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   Brain, 
@@ -9,12 +9,21 @@ import {
   CreditCard, 
   ChevronRight, 
   Heart, 
-  Workflow, 
   Network
 } from 'lucide-react';
 
 // Single feature card component
-const FeatureCard = ({ icon: Icon, title, description, gradient }) => {
+const FeatureCard = ({ 
+  icon: Icon, 
+  title, 
+  description, 
+  gradient 
+}: { 
+  icon: React.ElementType; 
+  title: string; 
+  description: string; 
+  gradient: string;
+}) => {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true, amount: 0.3 });
   
@@ -24,12 +33,10 @@ const FeatureCard = ({ icon: Icon, title, description, gradient }) => {
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.5 }}
-      className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-lg backdrop-blur-sm border border-purple-500/20 shadow-lg overflow-hidden"
+      className={`${gradient} rounded-lg backdrop-blur-sm border border-purple-500/20 shadow-lg overflow-hidden`}
     >
       <div className="p-6">
-        <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${gradient}`}>
-          <Icon className="text-white" size={24} />
-        </div>
+        <Icon className="w-8 h-8 text-white mb-4" />
         <h3 className="text-xl font-bold mb-2 text-white">{title}</h3>
         <p className="text-gray-300">{description}</p>
       </div>
@@ -38,7 +45,13 @@ const FeatureCard = ({ icon: Icon, title, description, gradient }) => {
 };
 
 // Section title with animation
-const SectionTitle = ({ title, subtitle }) => {
+const SectionTitle = ({ 
+  title, 
+  subtitle 
+}: { 
+  title: string; 
+  subtitle: string;
+}) => {
   const titleRef = useRef(null);
   const isInView = useInView(titleRef, { once: true });
   

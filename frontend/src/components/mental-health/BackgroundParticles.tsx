@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion, MotionValue, useTransform } from 'framer-motion';
+import { MotionValue, useTransform } from 'framer-motion';
 
 interface BackgroundParticlesProps {
   progress: MotionValue<number>;

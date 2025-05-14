@@ -456,7 +456,7 @@ const SuccessMessage = () => (
     
     <div className="bg-purple-900/30 rounded-lg p-3 md:p-4 max-w-lg mx-auto">
       <p className="text-purple-300 text-xs md:text-sm">
-        <strong>What's next?</strong> Our partnership team will evaluate how we can collaborate 
+        <strong>What&apos;s next?</strong> Our partnership team will evaluate how we can collaborate 
         most effectively to bring mental health support to communities in crisis.
       </p>
     </div>

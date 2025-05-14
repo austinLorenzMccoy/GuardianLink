@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 interface FeatureCardProps {
@@ -93,7 +93,7 @@ const FeaturesSection = () => {
             viewport={{ once: true }}
             className="text-gray-300 max-w-2xl mx-auto"
           >
-            Through a powerful combination of blockchain, AI, and decentralized coordination, we're building a more efficient and transparent disaster response system.
+            Through a powerful combination of blockchain, AI, and decentralized coordination, we&apos;re building a more efficient and transparent disaster response system.
           </motion.p>
         </div>
         

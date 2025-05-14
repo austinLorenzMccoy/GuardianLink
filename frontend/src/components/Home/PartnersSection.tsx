@@ -113,7 +113,7 @@ const PartnersSection = () => {
             viewport={{ once: true }}
             className="text-gray-300 max-w-2xl mx-auto"
           >
-            We're collaborating with leading organizations and technologies to build a more efficient disaster response ecosystem.
+            We&apos;re collaborating with leading organizations and technologies to build a more efficient disaster response ecosystem.
           </motion.p>
         </div>
         

@@ -7,7 +7,7 @@ interface AidStreamListProps {
   disasterId: string;
 }
 
-const AidStreamList: React.FC<AidStreamListProps> = ({ aidStreams, disasterId }) => {
+const AidStreamList: React.FC<AidStreamListProps> = ({ aidStreams }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       {aidStreams.length > 0 ? (
