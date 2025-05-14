@@ -135,7 +135,7 @@ const Navigation = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="#partners" legacyBehavior passHref>
+              <Link href="/become-partner" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle({ className: "bg-transparent hover:bg-white/10" })}>
                   Partners
                 </NavigationMenuLink>
@@ -226,7 +226,7 @@ const Navigation = () => {
               
               <motion.div variants={menuItemVariants} custom={3}>
                 <Link 
-                  href="#partners" 
+                  href="/become-partner" 
                   className="block py-2 px-4 hover:bg-white/10 rounded-md border border-transparent hover:border-purple-500/20 transition-all duration-300"
                   onClick={() => setMobileMenuOpen(false)}
                 >

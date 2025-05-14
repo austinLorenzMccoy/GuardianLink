@@ -21,6 +21,7 @@ export default function BecomePartnerPage() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
   
   // For partner logos animation
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,33 +31,65 @@ export default function BecomePartnerPage() {
   
   // Partner logos - replace with actual logos in your project
   const partners = [
-    { name: 'MetaMask', logo: '/api/placeholder/150/60', darkLogo: true },
-    { name: 'ALX', logo: '/api/placeholder/120/60', darkLogo: false },
-    { name: 'WHO', logo: '/api/placeholder/120/60', darkLogo: false },
-    { name: 'MentalHealthNIG', logo: '/public/Mental.png', darkLogo: true },
-    { name: 'IPFS', logo: '/api/placeholder/100/60', darkLogo: false },
-    { name: 'Polygon', logo: '/api/placeholder/150/60', darkLogo: true },
+    { name: 'MetaMask', logo: '/metamask.png', darkLogo: true },
+    { name: 'ALX', logo: '/Alx.jpeg', darkLogo: false },
+    { name: 'WHO', logo: '/WHO.png', darkLogo: false },
+    { name: 'MentalHealthNIG', logo: '/Mental.png', darkLogo: true },
+    { name: 'IPFS', logo: '/Ipfs.png', darkLogo: false },
+    { name: 'Polygon', logo: '/Polygon.jpeg', darkLogo: true },
   ];
   
   const partners2 = [
-    { name: 'Gaia AI', logo: '/api/placeholder/140/60', darkLogo: false },
-    { name: 'EthGlobal', logo: '/api/placeholder/150/60', darkLogo: true },
-    { name: 'Consensys', logo: '/api/placeholder/170/60', darkLogo: false },
-    { name: 'UN Crisis Response', logo: '/api/placeholder/200/60', darkLogo: true },
-    { name: 'TherapyDAO', logo: '/api/placeholder/150/60', darkLogo: false },
+    { name: 'Gaia AI', logo: '/gaia.jpeg', darkLogo: false },
+    { name: 'EthGlobal', logo: '/Eth.png', darkLogo: true },
+    { name: 'Consensys', logo: '/consensys.jpeg', darkLogo: false },
+    { name: 'UN Crisis Response', logo: '/united-nation.png', darkLogo: true },
+    { name: 'TherapyDAO', logo: '/Therapy.png', darkLogo: false },
   ];
   
-  // Set up rotating logos animation
+  // Handle window resize
   useEffect(() => {
+    // Set initial window width
+    setWindowWidth(window.innerWidth);
+    
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Reset animations when window size changes
+  useEffect(() => {
+    if (windowWidth > 0) {
+      setupAnimations();
+    }
+  }, [windowWidth]);
+  
+  // Set up rotating logos animation
+  const setupAnimations = () => {
     // Only run animation if not in reduced motion mode
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     if (!prefersReducedMotion && containerRef.current && containerRef2.current) {
+      // Reset animations
+      controls1.stop();
+      controls2.stop();
+      
+      // Calculate animation duration based on screen width
+      // Slower for smaller screens, faster for larger screens
+      const baseDuration = 25;
+      const screenWidth = windowWidth || window.innerWidth;
+      const durationFactor = Math.max(0.5, Math.min(1.5, screenWidth / 1200));
+      const duration1 = baseDuration * durationFactor;
+      const duration2 = (baseDuration + 5) * durationFactor;
+      
       // First row animation
       const firstRowAnimation = async () => {
         await controls1.start({
           x: '-100%',
-          transition: { duration: 25, ease: 'linear' }
+          transition: { duration: duration1, ease: 'linear' }
         });
         controls1.set({ x: '100%' });
         firstRowAnimation();
@@ -66,7 +99,7 @@ export default function BecomePartnerPage() {
       const secondRowAnimation = async () => {
         await controls2.start({
           x: '100%',
-          transition: { duration: 30, ease: 'linear' }
+          transition: { duration: duration2, ease: 'linear' }
         });
         controls2.set({ x: '-100%' });
         secondRowAnimation();
@@ -75,12 +108,17 @@ export default function BecomePartnerPage() {
       firstRowAnimation();
       secondRowAnimation();
     }
+  };
+  
+  useEffect(() => {
+    // Set up animations on component mount
+    setupAnimations();
     
     return () => {
       controls1.stop();
       controls2.stop();
     };
-  }, [controls1, controls2]);
+  }, []);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,33 +145,34 @@ export default function BecomePartnerPage() {
       <div className="fixed bottom-1/3 right-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl -z-10" />
       
       {/* Partner logos showcase */}
-      <div className="relative overflow-hidden w-full pt-24 pb-6 mb-8 bg-gradient-to-b from-black to-purple-950/20">
-        <div className="text-center mb-6">
-          <h2 className="text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-blue-300">
+      <div className="relative overflow-hidden w-full pt-16 md:pt-24 pb-6 mb-8 bg-gradient-to-b from-black to-purple-950/20">
+        <div className="text-center mb-4 md:mb-6 px-4">
+          <h2 className="text-lg md:text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-blue-300">
             TRUSTED BY LEADING ORGANIZATIONS
           </h2>
         </div>
         
         {/* First row of logos - left to right */}
-        <div className="relative overflow-hidden w-full mb-8 h-20">
+        <div className="relative overflow-hidden w-full mb-6 md:mb-8 h-16 md:h-20">
           <motion.div
             ref={containerRef}
             animate={controls1}
             initial={{ x: '100%' }}
-            className="flex items-center space-x-12 absolute"
+            className="flex items-center space-x-8 md:space-x-12 absolute"
           >
             {[...partners, ...partners].map((partner, index) => (
               <div 
                 key={`partner1-${index}`} 
-                className={`flex-shrink-0 py-3 px-5 rounded-lg ${partner.darkLogo ? 'bg-white/5 backdrop-blur-sm' : ''} h-20 flex items-center justify-center group transition-all duration-300 hover:bg-white/10 border border-transparent hover:border-purple-500/30`}
+                className={`flex-shrink-0 py-2 md:py-3 px-3 md:px-5 rounded-lg ${partner.darkLogo ? 'bg-white/5 backdrop-blur-sm' : ''} h-14 md:h-20 w-24 md:w-32 flex items-center justify-center group transition-all duration-300 hover:bg-white/10 border border-transparent hover:border-purple-500/30`}
               >
-                <div className="relative w-auto h-10">
+                <div className="relative w-full h-full flex items-center justify-center">
                   <Image 
                     src={partner.logo} 
                     alt={partner.name} 
-                    width={150}
-                    height={60}
-                    className="object-contain filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                    fill
+                    sizes="(max-width: 768px) 100px, 150px"
+                    className="object-contain filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 p-1"
+                    style={{ objectFit: 'contain' }}
                   />
                 </div>
               </div>
@@ -142,25 +181,26 @@ export default function BecomePartnerPage() {
         </div>
         
         {/* Second row of logos - right to left */}
-        <div className="relative overflow-hidden w-full h-20">
+        <div className="relative overflow-hidden w-full h-16 md:h-20">
           <motion.div
             ref={containerRef2}
             animate={controls2}
             initial={{ x: '-100%' }}
-            className="flex items-center space-x-12 absolute"
+            className="flex items-center space-x-8 md:space-x-12 absolute"
           >
             {[...partners2, ...partners2].map((partner, index) => (
               <div 
                 key={`partner2-${index}`} 
-                className={`flex-shrink-0 py-3 px-5 rounded-lg ${partner.darkLogo ? 'bg-white/5 backdrop-blur-sm' : ''} h-20 flex items-center justify-center group transition-all duration-300 hover:bg-white/10 border border-transparent hover:border-purple-500/30`}
+                className={`flex-shrink-0 py-2 md:py-3 px-3 md:px-5 rounded-lg ${partner.darkLogo ? 'bg-white/5 backdrop-blur-sm' : ''} h-14 md:h-20 w-24 md:w-32 flex items-center justify-center group transition-all duration-300 hover:bg-white/10 border border-transparent hover:border-purple-500/30`}
               >
-                <div className="relative w-auto h-10">
+                <div className="relative w-full h-full flex items-center justify-center">
                   <Image 
                     src={partner.logo} 
                     alt={partner.name} 
-                    width={150}
-                    height={60}
-                    className="object-contain filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                    fill
+                    sizes="(max-width: 768px) 100px, 150px"
+                    className="object-contain filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 p-1"
+                    style={{ objectFit: 'contain' }}
                   />
                 </div>
               </div>
@@ -169,8 +209,8 @@ export default function BecomePartnerPage() {
         </div>
         
         {/* Gradient fade effect on the sides */}
-        <div className="absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
-        <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
+        <div className="absolute top-0 left-0 h-full w-16 md:w-24 bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
+        <div className="absolute top-0 right-0 h-full w-16 md:w-24 bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
       </div>
       
       <div className="container mx-auto px-4 pt-6">
@@ -183,7 +223,7 @@ export default function BecomePartnerPage() {
           {/* Back button */}
           <Button
             variant="ghost"
-            className="mb-8 text-purple-300 hover:text-purple-200 hover:bg-purple-900/20"
+            className="mb-6 md:mb-8 text-purple-300 hover:text-purple-200 hover:bg-purple-900/20"
             onClick={() => router.back()}
           >
             <ArrowLeft size={16} className="mr-2" />
@@ -194,25 +234,25 @@ export default function BecomePartnerPage() {
             <SuccessMessage />
           ) : (
             <>
-              <div className="text-center mb-10">
-                <h1 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-blue-300 mb-4">
+              <div className="text-center mb-8 md:mb-10 px-2">
+                <h1 className="text-2xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-blue-300 mb-4">
                   Become a GuardianLink Partner
                 </h1>
-                <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
                   Join our global network of organizations bringing mental health support
                   to communities during crisis situations.
                 </p>
               </div>
               
-              <div className="bg-gradient-to-br from-black/70 to-purple-950/50 rounded-xl border border-purple-500/30 p-8 shadow-xl backdrop-blur-sm">
+              <div className="bg-gradient-to-br from-black/70 to-purple-950/50 rounded-xl border border-purple-500/30 p-4 md:p-8 shadow-xl backdrop-blur-sm">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Organization Info */}
                   <div className="space-y-4">
-                    <h2 className="text-xl font-semibold text-white border-b border-purple-500/30 pb-2">
+                    <h2 className="text-lg md:text-xl font-semibold text-white border-b border-purple-500/30 pb-2">
                       Organization Information
                     </h2>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="orgName">Organization Name *</Label>
                         <Input 
@@ -257,11 +297,11 @@ export default function BecomePartnerPage() {
                   
                   {/* Contact Info */}
                   <div className="space-y-4">
-                    <h2 className="text-xl font-semibold text-white border-b border-purple-500/30 pb-2">
+                    <h2 className="text-lg md:text-xl font-semibold text-white border-b border-purple-500/30 pb-2">
                       Contact Information
                     </h2>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="contactName">Contact Name *</Label>
                         <Input 
@@ -285,7 +325,7 @@ export default function BecomePartnerPage() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="email">Email Address *</Label>
                         <Input 
@@ -313,7 +353,7 @@ export default function BecomePartnerPage() {
                   
                   {/* Partnership Info */}
                   <div className="space-y-4">
-                    <h2 className="text-xl font-semibold text-white border-b border-purple-500/30 pb-2">
+                    <h2 className="text-lg md:text-xl font-semibold text-white border-b border-purple-500/30 pb-2">
                       Partnership Details
                     </h2>
                     
@@ -341,7 +381,7 @@ export default function BecomePartnerPage() {
                         name="message"
                         required
                         placeholder="Please describe how you see your organization collaborating with GuardianLink..."
-                        className="bg-black/50 border-purple-500/30 text-white min-h-32"
+                        className="bg-black/50 border-purple-500/30 text-white min-h-28 md:min-h-32"
                       />
                     </div>
                     
@@ -399,13 +439,13 @@ const SuccessMessage = () => (
     initial={{ opacity: 0, scale: 0.9 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 0.5 }}
-    className="bg-gradient-to-br from-black/70 to-purple-950/50 rounded-xl border border-purple-500/30 p-8 shadow-xl backdrop-blur-sm text-center"
+    className="bg-gradient-to-br from-black/70 to-purple-950/50 rounded-xl border border-purple-500/30 p-6 md:p-8 shadow-xl backdrop-blur-sm text-center"
   >
-    <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
-      <Check size={30} className="text-green-400" />
+    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4 md:mb-6">
+      <Check size={24} className="text-green-400" />
     </div>
     
-    <h2 className="text-2xl font-bold text-white mb-4">
+    <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
       Application Submitted!
     </h2>
     
@@ -414,14 +454,14 @@ const SuccessMessage = () => (
       application and reach out to you within 3-5 business days.
     </p>
     
-    <div className="bg-purple-900/30 rounded-lg p-4 max-w-lg mx-auto">
-      <p className="text-purple-300 text-sm">
+    <div className="bg-purple-900/30 rounded-lg p-3 md:p-4 max-w-lg mx-auto">
+      <p className="text-purple-300 text-xs md:text-sm">
         <strong>What's next?</strong> Our partnership team will evaluate how we can collaborate 
         most effectively to bring mental health support to communities in crisis.
       </p>
     </div>
     
-    <div className="mt-8">
+    <div className="mt-6 md:mt-8">
       <Button
         onClick={() => window.location.href = '/'}
         className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"

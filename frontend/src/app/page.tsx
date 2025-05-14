@@ -60,7 +60,7 @@ export default function Home() {
                       <NavigationMenuLink asChild>
                         <Link
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-900/80 to-purple-900/80 p-6 no-underline outline-none focus:shadow-md"
-                          href="/disaster-response"
+                          href="/disaster-response" passHref
                         >
                           <div className="mb-2 mt-4 text-lg font-medium text-white">
                             Disaster Response
@@ -95,7 +95,7 @@ export default function Home() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/become-partner" legacyBehavior passHref>
+                <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle({ className: "bg-transparent hover:bg-white/10" })}>
                     Partners
                 </NavigationMenuLink>

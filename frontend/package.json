@@ -20,9 +20,12 @@
     "@radix-ui/react-tooltip": "^1.2.6",
     "@tailwindcss/forms": "^0.5.10",
     "@tanstack/react-table": "^8.21.3",
+    "@walletconnect/ethereum-provider": "^2.20.2",
+    "@web3modal/ethereum": "^2.7.1",
+    "@web3modal/react": "^2.7.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "ethers": "^6.14.0",
+    "ethers": "^5.7.2",
     "framer-motion": "^12.11.0",
     "lucide-react": "^0.510.0",
     "mapbox-gl": "^3.12.0",
@@ -32,6 +35,8 @@
     "react-hook-form": "^7.56.3",
     "react-map-gl": "^8.0.4",
     "tailwind-merge": "^3.3.0",
+    "viem": "^2.29.2",
+    "wagmi": "^0.12.19",
     "zod": "^3.24.4"
   },
   "devDependencies": {

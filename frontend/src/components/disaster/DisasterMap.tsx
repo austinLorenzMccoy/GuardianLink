@@ -1,72 +1,82 @@
-import { Disaster, AidStream } from '@/types/disaster';
+// src/components/disaster/DisasterMap.tsx
+'use client';
 
-// Mock data for disasters
-export const MOCK_DISASTERS: Disaster[] = [
-  {
-    id: 'disaster-1',
-    name: 'Flooding in Lagos',
-    type: 'Flood',
-    severity: 'High',
-    location: { lat: 6.5244, lng: 3.3792 },
-    affected: 15000,
-    status: 'Active',
-    aidNeeded: ['Food', 'Water', 'Medical Supplies'],
-  },
-  {
-    id: 'disaster-2',
-    name: 'Drought in Northern Kenya',
-    type: 'Drought',
-    severity: 'Critical',
-    location: { lat: 3.1157, lng: 37.6066 },
-    affected: 25000,
-    status: 'Active',
-    aidNeeded: ['Water', 'Food', 'Agricultural Support'],
-  },
-  {
-    id: 'disaster-3',
-    name: 'Earthquake in Central Ethiopia',
-    type: 'Earthquake',
-    severity: 'Medium',
-    location: { lat: 9.145, lng: 40.4897 },
-    affected: 8000,
-    status: 'Recovery',
-    aidNeeded: ['Shelter', 'Medical Supplies'],
-  },
-];
+import { useState, useEffect } from 'react';
+import { Disaster } from '@/types/disaster';
+import { MOCK_DISASTERS, MOCK_AID_STREAMS } from './mockData';
 
-// Mock data for aid streams
-export const MOCK_AID_STREAMS: AidStream[] = [
-  {
-    id: 'stream-1',
-    disasterId: 'disaster-1',
-    name: 'Emergency Food Distribution',
-    organization: 'Global Relief',
-    tokenAmount: '2.5 ETH',
-    rate: '0.1 ETH/day',
-    duration: '25 days',
-    status: 'Active',
-    delivered: '40%',
-  },
-  {
-    id: 'stream-2',
-    disasterId: 'disaster-1',
-    name: 'Medical Supplies',
-    organization: 'Doctors Without Borders',
-    tokenAmount: '5 ETH',
-    rate: '0.2 ETH/day',
-    duration: '25 days',
-    status: 'Active',
-    delivered: '15%',
-  },
-  {
-    id: 'stream-3',
-    disasterId: 'disaster-2',
-    name: 'Water Distribution',
-    organization: 'Water Aid',
-    tokenAmount: '3 ETH',
-    rate: '0.15 ETH/day',
-    duration: '20 days',
-    status: 'Active',
-    delivered: '25%',
-  },
-];
+interface DisasterMapProps {
+  onSelectDisaster?: (disasterId: string) => void;
+  selectedDisasterId?: string;
+}
+
+export const DisasterMap: React.FC<DisasterMapProps> = ({ 
+  onSelectDisaster, 
+  selectedDisasterId 
+}) => {
+  const [mapLoaded, setMapLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    // In a real implementation, you would load a map library like Google Maps or Mapbox
+    // For the MVP, we'll just simulate a map loading
+    const timer = setTimeout(() => {
+      setMapLoaded(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="relative w-full h-96 rounded-xl overflow-hidden bg-gray-800">
+      {!mapLoaded ? (
+        <div className="flex items-center justify-center h-full">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      ) : (
+        <div className="w-full h-full relative">
+          {/* This would be replaced with an actual map component in a real implementation */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900 opacity-50"></div>
+          
+          {/* Disaster markers */}
+          {MOCK_DISASTERS.map(disaster => (
+            <button
+              key={disaster.id}
+              className={`absolute w-6 h-6 rounded-full ${
+                selectedDisasterId === disaster.id 
+                  ? 'bg-red-500 animate-pulse' 
+                  : disaster.severity === 'Critical' 
+                    ? 'bg-red-500' 
+                    : disaster.severity === 'High' 
+                      ? 'bg-orange-500' 
+                      : 'bg-yellow-500'
+              } transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 transition-transform`}
+              style={{
+                left: `${((disaster.location.lng + 180) / 360) * 100}%`,
+                top: `${((90 - disaster.location.lat) / 180) * 100}%`,
+              }}
+              onClick={() => onSelectDisaster && onSelectDisaster(disaster.id)}
+              title={disaster.name}
+            >
+              <span className="sr-only">{disaster.name}</span>
+            </button>
+          ))}
+          
+          {/* Map overlay with disaster information */}
+          <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-4">
+            <h3 className="text-lg font-semibold">Active Disasters: {MOCK_DISASTERS.filter(d => d.status === 'Active').length}</h3>
+            <p className="text-sm">
+              Total Aid Streaming: {MOCK_AID_STREAMS.reduce((sum, stream) => sum + parseFloat(stream.tokenAmount.split(' ')[0]), 0)} ETH
+            </p>
+          </div>
+          
+          {/* Map attribution */}
+          <div className="absolute top-2 right-2 text-xs text-white/70">
+            GuardianLink Disaster Mapping | MVP Demo
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DisasterMap;
