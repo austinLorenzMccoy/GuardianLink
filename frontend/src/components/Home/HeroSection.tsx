@@ -60,7 +60,7 @@ const HeroSection = () => {
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                  Decentralized Disaster Relief
+                  Decentralized Disaster Relief And Mental Health Wellness
                 </span>
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">

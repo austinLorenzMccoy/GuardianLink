@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useMetaMask } from '@/lib/metamask/MetaMaskProvider';
 import { DisasterMap } from '@/components/disaster/DisasterMap';
 import DisasterList from '@/components/disaster/DisasterList';
-import DisasterDetails from '@/components/disaster/DisasterDetails';
+import DisasterDetails from '../../components/disaster/DisasterDetails';
 import AidStreamList from '@/components/disaster/AidStreamList';
 import { Disaster, AidStream } from '@/types/disaster';
 import { MOCK_DISASTERS, MOCK_AID_STREAMS } from '@/lib/mock-data/disaster-data';

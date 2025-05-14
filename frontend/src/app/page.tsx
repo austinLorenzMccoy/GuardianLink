@@ -95,10 +95,10 @@ export default function Home() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="#partners" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle({ className: "bg-transparent hover:bg-white/10" })}>
+                <Link href="/become-partner" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle({ className: "bg-transparent hover:bg-white/10" })}>
                     Partners
-                  </NavigationMenuLink>
+                </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
